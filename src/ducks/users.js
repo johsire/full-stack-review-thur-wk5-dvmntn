@@ -15,7 +15,7 @@ export function updateUserData() {
 export default function reducer(state = initalState, action) {
   switch (action.type) {
     case UPDATE_USER_DATA:
-    return Object.assign({}, state, { user: action.user });
+    return Object.assign({}, state, { user: action.payload });
 
     default:
       return state;
