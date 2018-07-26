@@ -9,7 +9,7 @@ const express = require('express');
  const { SERVER_PORT, REACT_APP_DOMAIN, REACT_APP_CLIENT_ID, CLIENT_SECRET } = process.env;
 
 // redrirect url in login.js component;
-app.get('/auth/callback', (req, res) => {
+app.get('/auth/callback', async (req, res) => {
   // req.query.code =====> code from auth0 to our endpoint in the front end;
   // http://localhost:3005/auth/callback?code=hfj34834673yh
   // now our payload object;
@@ -27,7 +27,7 @@ app.get('/auth/callback', (req, res) => {
 let resWithToken = axios.post(`https://${REACT_APP_DOMAIN}/auth/token`, payload);
 
 // use the access tokenc to get user info for whoever logged in;
-let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token={resWithToken.access_token}`)
+let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.access_token}`)
 
 })
 
