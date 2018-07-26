@@ -5,7 +5,7 @@ const initalState = {
 
 const  UPDATE_USER_DATA = 'UPDATE_USER_DATA';
 
-export function updateUserData() {
+export function updateUserData(user) {
   return {
     type: UPDATE_USER_DATA,
     payload: user

@@ -20,7 +20,7 @@ export default class Login extends Component {
       <div className="App">
       <img src={logo} alt="" />
       <button onClick={this.login}>Login</button>
-        <h1>HOME ROUTE</h1>
+        {/* <h1>HOME ROUTE</h1> */}
       </div>
     );
   }

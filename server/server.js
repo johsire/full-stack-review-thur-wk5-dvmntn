@@ -47,19 +47,20 @@ let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?acce
   // req.session.user = resoonseFromDB;
   // req.session = { user: {} };
   const db = req.app.get('db');
-  let { sub, email, name, picture } = resWithUserData;
+  let { sub, email, name, picture } = resWithUserData.data;
   let foundUser = await db.find_user([sub])
 
 // req.session.user is anyone logged in - if no one is then it will return an empty array;
   if (foundUser[0]) {
     req.session.user = foundUser[0];
     // this path ('/') simply means ==> res.redirect('http://localhost:3000/');
-    res.redirect('/')
+    res.redirect('/#/private');
   } else {
     // create user
     let createdUser = await db.create_user([name, email, sub, picture])
     // put on session
     req.session.user = createdUser[0];
+    res.redirect('/#/private');
   }
 });
 
@@ -73,7 +74,7 @@ app.get('/api/user-data', (req, res) => {
 
 app.get('/api/logout', (req, res) => {
   req.session.destroy();
-  req.send();
+  res.redirect('http://localhost:3000/');
 });
 
  app.listen(SERVER_PORT, () => {
