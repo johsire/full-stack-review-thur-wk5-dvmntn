@@ -40,12 +40,19 @@ app.get('/auth/callback', async (req, res) => {
 let resWithToken = axios.post(`https://${REACT_APP_DOMAIN}/auth/token`, payload);
 
 // use the access tokenc to get user info for whoever logged in;
-let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.access_token}`)
+let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.access_token}`);
+
   // db calls;
   // put user-data on req.session object;
   // req.session.user = resoonseFromDB;
   // req.session = { user: {} };
-})
+  const db = req.app.get('db');
+  let { sub, email, name, picture } = resWithUserData;
+  let foundUser = await db.find_user([sub])
+  if (foundUser[0]) {
+    
+  }
+});
 
  app.listen(SERVER_PORT, () => {
    console.log(`Listening on port: ${SERVER_PORT}`);

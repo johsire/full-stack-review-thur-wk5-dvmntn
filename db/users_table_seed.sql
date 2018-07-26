@@ -4,4 +4,4 @@ CREATE TABLE users (
   email VARCHAR(180),
   auth_id TEXT,
   picture TEXT
-)
+);
