@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-d';
+
+import logo from './communityBank.svg';
+import './Login.css'
+
+
+
+login() {
+  
+}
 
 
 export default class Login extends Component {
   render() {
     return (
-      <div>
-        <h1>HOME Route</h1>
+      <div className="App">
+      <img src={logo} alt="" />
+      <button onClick={this.login}>Login</button>
+        <h1>HOME ROUTE</h1>
       </div>
     );
   }
