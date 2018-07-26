@@ -32,15 +32,15 @@ app.get('/auth/callback', async (req, res) => {
     client_secret: CLIENT_SECRET,
     code: req.query.code,
     grant_type: 'authorization_code',
-    redirect_uri: `http://${req.header.host}/auth/callback`
+    redirect_uri: `http://${req.headers.host}/auth/callback`
   };
 
   // use the code from auth0 to get a token
   // we are sending the payload object and the url - since we're sedning its a post;
-let resWithToken = axios.post(`https://${REACT_APP_DOMAIN}/auth/token`, payload);
+let resWithToken = await axios.post(`https://${REACT_APP_DOMAIN}/oauth/token`, payload);
 
 // use the access tokenc to get user info for whoever logged in;
-let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.access_token}`);
+let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.data.access_token}`);
 
   // db calls;
   // put user-data on req.session object;
@@ -62,6 +62,15 @@ let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?acce
     req.session.user = createdUser[0];
   }
 });
+
+app.get('/api/user-data', (req, res) => {
+  if (req.session.user) {
+    res.status(200).send(req.session.user);
+  } else {
+    res.status(401).send('Nice try sucka!');
+  }
+});
+
 
  app.listen(SERVER_PORT, () => {
    console.log(`Listening on port: ${SERVER_PORT}`);
