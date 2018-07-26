@@ -49,8 +49,17 @@ let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?acce
   const db = req.app.get('db');
   let { sub, email, name, picture } = resWithUserData;
   let foundUser = await db.find_user([sub])
+
+// req.session.user is anyone logged in - if no one is then it will return an empty array;
   if (foundUser[0]) {
-    
+    req.session.user = foundUser[0];
+    // this path ('/') simply means ==> res.redirect('http://localhost:3000/');
+    res.redirect('/')
+  } else {
+    // create user
+    let createdUser = await db.create_user([name, email, sub, picture])
+    // put on session
+    req.session.user = createdUser[0];
   }
 });
 
