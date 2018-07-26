@@ -6,7 +6,16 @@ const express = require('express');
 
  const app = express();
 
- const { SERVER_PORT, REACT_APP_DOMAIN, REACT_APP_CLIENT_ID, CLIENT_SECRET } = process.env;
+
+ const { SERVER_PORT, REACT_APP_DOMAIN, REACT_APP_CLIENT_ID, CLIENT_SECRET, SESSION_SECRET } = process.env;
+
+
+ app.use(session ({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
+
 
 // redrirect url in login.js component;
 app.get('/auth/callback', async (req, res) => {
@@ -28,7 +37,10 @@ let resWithToken = axios.post(`https://${REACT_APP_DOMAIN}/auth/token`, payload)
 
 // use the access tokenc to get user info for whoever logged in;
 let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.access_token}`)
-
+  // db calls;
+  // put user-data on req.session object;
+  // req.session.user = resoonseFromDB;
+  // req.session = { user: {} };
 })
 
  app.listen(SERVER_PORT, () => {
