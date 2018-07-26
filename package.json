@@ -19,10 +19,10 @@
   "main": "./server/server.js",
   "proxy": {
     "/api": {
-      "target": "http://localhost:4000"
+      "target": "http://localhost:3005"
     },
     "/callback": {
-      "target": "http://localhost:4000"
+      "target": "http://localhost:3005"
     }
   }
 }
