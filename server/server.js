@@ -71,6 +71,10 @@ app.get('/api/user-data', (req, res) => {
   }
 });
 
+app.get('/api/logout', (req, res) => {
+  req.session.destroy();
+  req.send();
+});
 
  app.listen(SERVER_PORT, () => {
    console.log(`Listening on port: ${SERVER_PORT}`);
