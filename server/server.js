@@ -39,12 +39,12 @@ app.get('/auth/callback', async (req, res) => {
   // we are sending the payload object and the url - since we're sedning its a post;
 let resWithToken = await axios.post(`https://${REACT_APP_DOMAIN}/oauth/token`, payload);
 
-// use the access tokenc to get user info for whoever logged in;
+// use the access token to get user info for whoever logged in;
 let resWithUserData = await axios.get(`https://${REACT_APP_DOMAIN}/userinfo?access_token=${resWithToken.data.access_token}`);
 
   // db calls;
   // put user-data on req.session object;
-  // req.session.user = resoonseFromDB;
+  // req.session.user = responseFromDB;
   // req.session = { user: {} };
   const db = req.app.get('db');
   let { sub, email, name, picture } = resWithUserData.data;
